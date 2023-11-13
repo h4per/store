@@ -20,7 +20,7 @@ def product_detail(request, id):
         'footerinfo': footerinfo,
         'products': products, 
         'product_detail' : product_detail,
-        'form': CartForm(),
+        # 'form': CartForm(),
     }
     return render(request, 'product_detail/single-product.html', context)
 
