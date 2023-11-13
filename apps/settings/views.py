@@ -5,7 +5,6 @@ from apps.product.models import Product, Cart
 from apps.settings.models import Setting, Sliders, FooterSlide, Footer, Partner, AboutUs, Contact
 from apps.categories.models import Category, Subcategory
 
-import random
 
 def index(request):
 
