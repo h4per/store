@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+
+{% load crispy_forms_tags %}
+{% crispy form %}
+
+{% block title %}
+    Вы вышли из системы!
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+
+    <!--== Start Header Wrapper ==-->
+
+    <div class="header-area header-default">
+        <div class="container pt--0 pb--0">
+            <div class="row align-items-center position-relative">
+                <div class="col-6 col-lg-3">
+                    <div class="header-logo-area">
+                        <a href="{% url 'index' %}">
+                            <img class="logo-main" src="{{ setting.logo.url }}" alt="Logo" />
+                            <img class="logo-light" src="{{ setting.logo.url }}" alt="Logo" />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-7 d-none d-lg-block">
+                    <div class="header-navigation-area position-relative">
+                        <ul class="main-menu nav">
+                            <li><a href="{% url 'index' %}"><span>Главная</span></a>
+                            </li>
+                            <li><a href="{% url 'store' %}"><span>Магазин</span></a>
+                            </li>
+                            <li><a href="index.html#/"><span>Блок</span></a>
+                            </li>
+                            <li><a href="index.html#/"><span>Страницы</span></a>
+                            </li>
+                            <li><a href="{% url 'about_us' %}"><span>О нас</span></a></li>
+                            <li><a href="{% url 'contacts' %}"><span>Контакты</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="container py-5">
+                    <p>Вы вышли из системы!</p>
+                    <a href="{% url 'login' %}">Войти снова?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,753 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+
+<!--wrapper start-->
+<div class="wrapper">
+
+  <!--== Start Header Wrapper ==-->
+    <header class="main-header-wrapper position-relative">
+      <div class="header-area header-default">
+        <div class="container pt--0 pb--0">
+            <div class="row align-items-center position-relative">
+                <div class="col-6 col-lg-3">
+                    <div class="header-logo-area">
+                        <a href="{% url 'index' %}">
+                            <img class="logo-main" src="{{ setting.logo.url }}" alt="Logo" />
+                            <img class="logo-light" src="{{ setting.logo.url }}" alt="Logo" />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-7 d-none d-lg-block">
+                    <div class="header-navigation-area position-relative">
+                        <ul class="main-menu nav">
+                            <li><a href="{% url 'index' %}"><span>Главная</span></a>
+                            </li>
+                            <li><a href="{% url 'store' %}"><span>Магазин</span></a>
+                            </li>
+                            <li><a href="index.html#/"><span>Блок</span></a>
+                            </li>
+                            <li><a href="index.html#/"><span>Страницы</span></a>
+                            </li>
+                            <li><a href="{% url 'about_us' %}"><span>О нас</span></a></li>
+                            <li><a href="{% url 'contacts' %}"><span>Контакты</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <div class="header-action-area">
+                        <div class="header-search header-search-style1">
+                            <div class="inner">
+                                <button class="search-link" type="button"><i class="ion-ios-search-strong"></i></button>
+                                <div class="header-search-content">
+                                    <form class="header-action-form" action=" " method="get">
+                                        <input type="text" placeholder="Поиск..." name="search">
+                                        <button type="submit"><i class="ion-ios-search-strong"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="header-minicart header-minicart-style1">
+                            <div class="inner">
+                                <button class="cart-link collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#cartLink">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </button>
+                                <div class="header-minicart-content collapse" id="cartLink">
+                                    <div class="minicart-inner">
+                                        {% if order %}
+                                            <div class="minicart-list">
+                                                {% for item in order %}
+                                                    <div class="minicart-item">
+                                                          <a class="thumb" href="{% url 'single_product' item.id %}">
+                                                            <img src="{{ posts.img.url }}" alt="{{ item.product }}">
+                                                            <span>{{ item.product }}</span>
+                                                        </a>
+                                                        <p class="quantity-price">{{ item.quantity }} × <span class="price">{{ item.price }}</span></p>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="minicart-total">
+                                                <span>В итоге:</span>
+                                                <span class="">{{ total_price }}</span>
+                                            </div>
+                                            <div class="minicart-buttons">
+                                                <a class="cart-button" href="{% url 'shop_cart' %}">Корзина</a>
+                                                <a class="cart-button" href="">История</a>
+                                            </div>
+                                        {% else %}
+                                            <p>У вас нет заказов.</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                                
+                        <button class="btn-menu" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
+                            <i class="ion-android-menu"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="header-bottom d-none d-lg-block">
+        <div class="container pt--0 pb--0">
+            <div class="row align-items-center">
+                <div class="col-lg-5 col-xl-6">
+                    <div class="header-search-area">
+                      <form action="" method="get" class="header-search-box">
+                        <input type="search" class="form-control" placeholder="Поиск товаров" name="search" id="">
+                        <button type="submit"><i class="ion-ios-search-strong"></i></button>
+                      </form>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="header-phone">
+                        <p><b>{{ setting.phone }}</b><br>{{ setting.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </header>
+  <!--== End Header Wrapper ==-->
+  
+  <main class="main-content">
+    <!--== Start Page Header Area Wrapper ==-->
+    <div class="page-header-area">
+      <div class="container pt--0 pb--0">
+        <div class="row">
+          <div class="col-12">
+            <div class="page-header-content">
+              <nav class="breadcrumb-area">
+                <ul class="breadcrumb">
+                  <li><a href="{% url 'index' %}">Главная</a></li>
+                  <li class="breadcrumb-sep">></li>
+                  <li>О нас</li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--== End Page Header Area Wrapper ==-->
+
+    <!--== Start About Area Wrapper ==-->
+    <section class="about-area">
+      <div class="container pt--0">
+        <div class="about-item position-relative">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="about-content">
+                <h3 class="title">{{ about.title }}</h3>
+                <p class="desc">{{ about.description }}</p>
+                <div class="about-contact">
+                  <ul>
+                    <li>
+                      <span>Адрес:</span>
+                      {{ setting.address }}
+                    </li>
+                    <li>
+                      <span>Телефон:</span>
+                      {{ setting.phone }}
+                    </li>
+                    <li>
+                      <span>Почта:</span>
+                      {{ setting.email }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="about-thumb">
+                <img src="{{ about.img.url }}" width="570" height="515" alt="Image-HasTech">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End About Area Wrapper ==-->
+
+    <!--== Start Divider Area Wrapper ==-->
+    <section class="divider-area bg-color-f8">
+      <div class="container pt--0 pb--0">
+        <div class="row">
+          <div class="col-12">
+            <div class="divider-wrap-style2 position-relative">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="divider-content">
+                    <h4 class="title">Functionality meets perfection</h4>
+                    <p class="desc">In today’s day and age, one cannot underestimate the importance of design, the art of creating striking visuals to move and captivate your audience. And as the world becomes more and more digitized with each passing second, the importance of graphic design has been rocketed to the top.</p>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="progress-divider-content">
+                    <!--== Start Progress Item ==-->
+                    <div class="progress-item">
+                      <div class="progress-text">
+                        <span>UI/UX</span>
+                      </div>
+                      <div class="progress">
+                        <div class="progress-bar striped" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                    <!--== End Progress Item ==-->
+
+                    <!--== Start Progress Item ==-->
+                    <div class="progress-item">
+                      <div class="progress-text">
+                        <span>Ideas</span>
+                      </div>
+                      <div class="progress">
+                        <div class="progress-bar striped" role="progressbar" style="width: 86%" aria-valuenow="86" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                    <!--== End Progress Item ==-->
+
+                    <!--== Start Progress Item ==-->
+                    <div class="progress-item mb--0">
+                      <div class="progress-text">
+                        <span>Design</span>
+                      </div>
+                      <div class="progress">
+                        <div class="progress-bar striped" role="progressbar" style="width: 97%" aria-valuenow="97" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                    <!--== End Progress Item ==-->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Divider Area Wrapper ==-->
+
+    <!--== Start Testimonial Area Wrapper ==-->
+    <section class="testimonial-area">
+      <div class="container pb--0">
+        <div class="row">
+          <div class="col-12">
+            <div class="section-title-style4 text-center">
+              <h3 class="title">Client Testimonials</h3>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <div class="swiper testimonial-slider-container">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <!--== Start Testimonial Item ==-->
+                  <div class="testimonial-item">
+                    <div class="testi-inner-content">
+                      <div class="testi-thumb">
+                        <img src="assets/img/testimonial/1.webp" width="150" height="150" alt="Image-HasTech">
+                        <span class="testi-quote"></span>
+                      </div>
+                      <div class="testi-content">
+                        <p class="desc">These guys have been absolutely outstanding. Perfect Themes and the best of all that you have many options to choose! Best Support team ever! Very fast responding! Thank you very much! I highly recommend this theme and these people!</p>
+                      </div>
+                      <div class="testi-author">
+                        <div class="testi-info">
+                          <span class="name">John Sullivan</span>
+                          <span class="designation">Customer</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--== End Testimonial Item ==-->
+                </div>
+                <div class="swiper-slide">
+                  <!--== Start Testimonial Item ==-->
+                  <div class="testimonial-item">
+                    <div class="testi-inner-content">
+                      <div class="testi-thumb">
+                        <img src="assets/img/testimonial/2.webp" width="150" height="150" alt="Image-HasTech">
+                        <span class="testi-quote"></span>
+                      </div>
+                      <div class="testi-content">
+                        <p class="desc">Code, template and others are very good. The support has served me immediately and solved my problems when I need help. Are to be congratulated.</p>
+                      </div>
+                      <div class="testi-author">
+                        <div class="testi-info">
+                          <span class="name">Jenifer Brown</span>
+                          <span class="designation">Manager of AZ</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--== End Testimonial Item ==-->
+                </div>
+                <div class="swiper-slide">
+                  <!--== Start Testimonial Item ==-->
+                  <div class="testimonial-item">
+                    <div class="testi-inner-content">
+                      <div class="testi-thumb">
+                        <img src="assets/img/testimonial/3.webp" width="150" height="150" alt="Image-HasTech">
+                        <span class="testi-quote"></span>
+                      </div>
+                      <div class="testi-content">
+                        <p class="desc">Support and response has been amazing, helping me with several issues I came across and got them solved almost the same day. A pleasure to work with them!</p>
+                      </div>
+                      <div class="testi-author">
+                        <div class="testi-info">
+                          <span class="name">Kathy Young</span>
+                          <span class="designation">CEO of SunPark</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--== End Testimonial Item ==-->
+                </div>
+              </div>
+              <!-- If we need pagination -->
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Testimonial Area Wrapper ==-->
+
+    <!--== Start Funfact Area Wrapper ==-->
+    <section class="funfact-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="funfact-content-wrap">
+              <div class="row">
+                <div class="col-6 col-lg-3">
+                  <!--== Start Funfact Item ==-->
+                  <div class="funfact-item">
+                    <div class="icon"><img src="assets/img/icons/count1.webp" alt="Icon-HasTech"></div>
+                    <div class="counter-number">1989</div>
+                    <h6 class="counter-text">User Account</h6>
+                  </div>
+                  <!--== End Funfact Item ==-->
+                </div>
+                <div class="col-6 col-lg-3">
+                  <!--== Start Funfact Item ==-->
+                  <div class="funfact-item">
+                    <div class="icon"><img src="assets/img/icons/count2.webp" alt="Icon-HasTech"></div>
+                    <div class="counter-number">589</div>
+                    <h6 class="counter-text">Finished Projects</h6>
+                  </div>
+                  <!--== End Funfact Item ==-->
+                </div>
+                <div class="col-6 col-lg-3">
+                  <!--== Start Funfact Item ==-->
+                  <div class="funfact-item">
+                    <div class="icon"><img src="assets/img/icons/count3.webp" alt="Icon-HasTech"></div>
+                    <div class="counter-number">356</div>
+                    <h6 class="counter-text">Happy Clients</h6>
+                  </div>
+                  <!--== End Funfact Item ==-->
+                </div>
+                <div class="col-6 col-lg-3">
+                  <!--== Start Funfact Item ==-->
+                  <div class="funfact-item">
+                    <div class="icon"><img src="assets/img/icons/count4.webp" alt="Icon-HasTech"></div>
+                    <div class="counter-number">989</div>
+                    <h6 class="counter-text">Sellers Active On Gluson</h6>
+                  </div>
+                  <!--== End Funfact Item ==-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Funfact Area Wrapper ==-->
+
+    <!--== Start Team Area Wrapper ==-->
+    <section class="team-area bg-color-f8">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="section-title-style4 text-center">
+              <h3 class="title">Meet Our Leaders</h3>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-lg-3">
+            <!--== Start Team Item ==-->
+            <div class="team-item">
+              <div class="inner-content">
+                <div class="thumb">
+                  <img src="assets/img/team/1.webp" width="200" height="200" alt="Image-HasTech">
+                </div>
+                <div class="content">
+                  <h4 class="title">Ms. Veronica</h4>
+                  <p>Web Designer</p>
+                  <div class="member-social-icons">
+                    <a class="ht-tooltip" data-tippy-content="facebook" href="https://www.facebook.com" target="_blank" rel="noopener">
+                      <i class="fa fa-facebook"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="twitter" href="https://twitter.com" target="_blank" rel="noopener">
+                      <i class="fa fa-twitter"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="instagram" href="https://www.instagram.com" target="_blank" rel="noopener">
+                      <i class="fa fa-instagram"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener">
+                      <i class="fa fa-linkedin"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="rss" href="https://rss.com" target="_blank" rel="noopener">
+                      <i class="fa fa-rss"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--== End Team Item ==-->
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <!--== Start Team Item ==-->
+            <div class="team-item">
+              <div class="inner-content">
+                <div class="thumb">
+                  <img src="assets/img/team/2.webp" width="200" height="200" alt="Image-HasTech">
+                </div>
+                <div class="content">
+                  <h4 class="title">Selena Dizimi</h4>
+                  <p>CEO Founder</p>
+                  <div class="member-social-icons">
+                    <a class="ht-tooltip" data-tippy-content="facebook" href="https://www.facebook.com" target="_blank" rel="noopener">
+                      <i class="fa fa-facebook"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="twitter" href="https://twitter.com" target="_blank" rel="noopener">
+                      <i class="fa fa-twitter"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="instagram" href="https://www.instagram.com" target="_blank" rel="noopener">
+                      <i class="fa fa-instagram"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener">
+                      <i class="fa fa-linkedin"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="rss" href="https://rss.com" target="_blank" rel="noopener">
+                      <i class="fa fa-rss"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--== End Team Item ==-->
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <!--== Start Team Item ==-->
+            <div class="team-item">
+              <div class="inner-content">
+                <div class="thumb">
+                  <img src="assets/img/team/3.webp" width="200" height="200" alt="Image-HasTech">
+                </div>
+                <div class="content">
+                  <h4 class="title">Missa Santos</h4>
+                  <p>Chief Operating Officer</p>
+                  <div class="member-social-icons">
+                    <a class="ht-tooltip" data-tippy-content="facebook" href="https://www.facebook.com" target="_blank" rel="noopener">
+                      <i class="fa fa-facebook"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="twitter" href="https://twitter.com" target="_blank" rel="noopener">
+                      <i class="fa fa-twitter"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="instagram" href="https://www.instagram.com" target="_blank" rel="noopener">
+                      <i class="fa fa-instagram"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener">
+                      <i class="fa fa-linkedin"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="rss" href="https://rss.com" target="_blank" rel="noopener">
+                      <i class="fa fa-rss"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--== End Team Item ==-->
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <!--== Start Team Item ==-->
+            <div class="team-item">
+              <div class="inner-content">
+                <div class="thumb">
+                  <img src="assets/img/team/4.webp" width="200" height="200" alt="Image-HasTech">
+                </div>
+                <div class="content">
+                  <h4 class="title">Lisa Antonia</h4>
+                  <p>Chief Financial Officer</p>
+                  <div class="member-social-icons">
+                    <a class="ht-tooltip" data-tippy-content="facebook" href="https://www.facebook.com" target="_blank" rel="noopener">
+                      <i class="fa fa-facebook"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="twitter" href="https://twitter.com" target="_blank" rel="noopener">
+                      <i class="fa fa-twitter"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="instagram" href="https://www.instagram.com" target="_blank" rel="noopener">
+                      <i class="fa fa-instagram"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="linkedin" href="https://www.linkedin.com" target="_blank" rel="noopener">
+                      <i class="fa fa-linkedin"></i>
+                    </a>
+                    <a class="ht-tooltip" data-tippy-content="rss" href="https://rss.com" target="_blank" rel="noopener">
+                      <i class="fa fa-rss"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--== End Team Item ==-->
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--== End Team Area Wrapper ==-->
+
+    <!--== Start Brand Logo Area Wrapper ==-->
+    <div class="brand-logo-area brand-logo-style2-area">
+      <div class="container">
+        <div class="brand-logo-content">
+          <div class="row">
+            <div class="col-12">
+              <div class="swiper-container-wrap swiper-navigation5">
+                <div class="swiper brand-logo-slider-container">
+                    <div class="swiper-wrapper">
+                        <!--== Start Brand Logo Item ==-->
+                        {% for partner in partners %}
+                        <div class="swiper-slide">
+                            <div class="brand-logo-item">
+                                <a href="{% url 'index' %}">
+                                    <img src="{{ partner.logo.url }}" alt="Image-Codex">
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <!--== End Brand Logo Item ==-->
+                    </div>
+                </div>
+                <!--== Add Swiper Arrows ==-->
+                <div class="swiper-btn-wrap">
+                    <div class="swiper-btn-prev">
+                        <i class="ion-ios-arrow-left"></i>
+                    </div>
+                    <div class="swiper-btn-next">
+                        <i class="ion-ios-arrow-right"></i>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--== End Brand Logo Area Wrapper ==-->
+  </main>
+
+
+    <!--== Start Footer Center ==-->
+    <div class="footer-center">
+      <div class="container pt--0 pb--0">
+          <div class="row">
+              <div class="col-lg-7 col-xl-6">
+                  <div class="newsletter-content">
+                      <div class="newsletter-title">
+                          <h4 class="title">{{ footerinfo.title }}</h4>
+                          <p><strong>{{ footerinfo.subtitle }}</strong></p>
+                      </div>
+                      <div class="newsletter-info">
+                          <p><strong>{{ footerinfo.description }}</strong></p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-5 col-xl-6">
+                  <div class="newsletter-form">
+                      <form action="index.html#">
+                          <input type="email" placeholder="Ваш e-mail..." required>
+                          <button type="submit">Подпишитесь!</button>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    <!--== End Footer Center ==-->
+
+    <!--== Start Footer Bottom ==-->
+    <div class="footer-bottom">
+      <div class="container pt--0 pb--0">
+          <div class="row">
+              <div class="col-12">
+                  <div class="footer-bottom-content">
+                      <p class="copyright">© 2023 Gluson. Сделано с  <i class="fa fa-heart"></i> компанией <a
+                              target="_blank" >Codex</a></p>
+                      <div class="widget-about">
+                          <div class="social-icons">
+                              <a class="ht-tooltip" data-tippy-content="facebook"
+                                  href="https://www.facebook.com" target="_blank" rel="noopener">
+                                  <i class="fa fa-facebook"></i>
+                              </a>
+                              <a class="ht-tooltip" data-bg-color="#40c1df" data-tippy-content="twitter"
+                                  href="https://twitter.com" target="_blank" rel="noopener">
+                                  <i class="fa fa-twitter"></i>
+                              </a>
+                              <a class="ht-tooltip" data-bg-color="#c619b8" data-tippy-content="instagram"
+                                  href="https://www.instagram.com" target="_blank" rel="noopener">
+                                  <i class="fa fa-instagram"></i>
+                              </a>
+                              <a class="ht-tooltip" data-bg-color="#ed3c32" data-tippy-content="linkedin"
+                                  href="https://www.linkedin.com" target="_blank" rel="noopener">
+                                  <i class="fa fa-linkedin"></i>
+                              </a>
+                              <a class="ht-tooltip" data-bg-color="#eb8314" data-tippy-content="rss"
+                                  href="https://rss.com" target="_blank" rel="noopener">
+                                  <i class="fa fa-rss"></i>
+                              </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    <!--== End Footer Bottom ==-->
+  </footer>
+  <!--== End Footer Area Wrapper ==-->
+
+  <!--== Scroll Top Button ==-->
+  <div id="scroll-to-top" class="scroll-to-top"><span class="fa fa-angle-up"></span></div>
+
+  <!--== Start Side Menu ==-->
+  <div class="off-canvas-wrapper offcanvas offcanvas-start" tabindex="-1" id="AsideOffcanvasMenu" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h1 id="offcanvasExampleLabel"></h1>
+      <button class="btn-menu-close" data-bs-dismiss="offcanvas" aria-label="Close">menu <i class="fa fa-chevron-left"></i></button>
+    </div>
+    <div class="offcanvas-body">
+      <nav id="offcanvasNav" class="offcanvas-menu-nav">
+        <ul>
+          <li class="offcanvas-nav-parent">
+            <a class="offcanvas-nav-item" href="javascript:void(0)">Home</a>
+            <ul>
+              <li><a href="index.html">Home Shop 1</a></li>
+              <li><a href="index-two.html">Home Shop 2</a></li>
+              <li><a href="index-three.html">Home Shop 3</a></li>
+              <li><a href="index-four.html">Home Shop 4</a></li>
+            </ul>
+          </li>
+
+          <li class="offcanvas-nav-parent">
+            <a class="offcanvas-nav-item" href="javascript:void(0)">Shop</a>
+            <ul>
+              <li>
+                <a class="offcanvas-nav-item" href="javascript:void(0)">Shop Layouts</a>
+                <ul>
+                  <li><a href="shop.html">Sidebar Left</a></li>
+                  <li><a href="shop-right-sidebar.html">Sidebar Right</a></li>
+                  <li><a href="shop-full-width.html">Full Width</a></li>
+                  <li><a href="shop-list-view.html">List View</a></li>
+                </ul>
+              </li>
+              <li>
+                <a class="offcanvas-nav-item" href="javascript:void(0)">Shop Pages</a>
+                <ul>
+                  <li><a href="shop-category.html">Product Category</a></li>
+                  <li><a href="account.html">My Account</a></li>
+                  <li><a href="shop-wishlist.html">Wishlist</a></li>
+                  <li><a href="shop-cart.html">Cart</a></li>
+                  <li><a href="shop-checkout.html">Checkout</a></li>
+                </ul>
+              </li>
+              <li>
+                <a class="offcanvas-nav-item" href="javascript:void(0)">Product Types</a>
+                <ul>
+                  <li><a href="single-normal-product.html">Simple Product</a></li>
+                  <li><a href="single-group-product.html">Grouped Product</a></li>
+                  <li><a href="single-product.html">Variable Product</a></li>
+                  <li><a href="single-external-product.html">External Product</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <li class="offcanvas-nav-parent">
+            <a class="offcanvas-nav-item" href="javascript:void(0)">Blog</a>
+            <ul>
+              <li>
+                <a class="offcanvas-nav-item" href="javascript:void(0)">Blog Layouts</a>
+                <ul>
+                  <li><a href="blog-left-sidebar.html">Sidebar Left</a></li>
+                  <li><a href="blog-right-sidebar.html">Sidebar Right</a></li>
+                  <li><a href="blog-large-image.html">Large Image</a></li>
+                  <li><a href="blog.html">Blog Grid</a></li>
+                  <li><a href="blog-no-sidebar.html">No Sidebar</a></li>
+                </ul>
+              </li>
+              <li>
+                <a class="offcanvas-nav-item" href="javascript:void(0)">Blog Pages</a>
+                <ul>
+                  <li><a href="blog-author.html">Author</a></li>
+                  <li><a href="blog-archives.html">Archives</a></li>
+                  <li><a href="blog-category.html">Category</a></li>
+                  <li><a href="blog-tag.html">Blog Tag</a></li>
+                </ul>
+              </li>
+              <li>
+                <a class="offcanvas-nav-item" href="javascript:void(0)">Post Formats</a>
+                <ul>
+                  <li><a href="blog-details.html">Image Format</a></li>
+                  <li><a href="blog-details-gallery.html">Gallery Format</a></li>
+                  <li><a href="blog-details-audio.html">Audio Format</a></li>
+                  <li><a href="blog-details-video.html">Video Format</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <li class="offcanvas-nav-parent">
+            <a class="offcanvas-nav-item" href="javascript:void(0)">Pages</a>
+            <ul>
+              <li><a href="faq.html">Frequently Questions</a></li>
+              <li><a href="shop-privacy-policy.html">Privacy Policy</a></li>
+              <li><a href="page-not-found.html">Error 404</a></li>
+            </ul>
+          </li>
+
+          <li class="offcanvas-nav-parent"><a class="offcanvas-nav-item" href="about-us.html">About</a></li>
+
+          <li class="offcanvas-nav-parent"><a class="offcanvas-nav-item" href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <ul id="offcanvas-menu2" class="offcanvas-menu-nav2">
+        <li>
+          <a href="javascript:void(0)">My Account</a>
+          <ul class="category-sub-menu">
+            <li><a href="account.html">My account</a></li>
+            <li><a href="shop-privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="faq.html">Frequently Questions</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="javascript:void(0)">Product</a>
+          <ul class="category-sub-menu">
+            <li><a href="shop-wishlist.html">Wishlist</a></li>
+            <li><a href="shop-cart.html">Cart</a></li>
+            <li><a href="shop-checkout.html">Checkout</a></li>
+          </ul>
+        </li>
+      </ul>
+      <p class="info"><b>800 456 789-987</b><br>24/7 Free Support</p>
+    </div>
+  </div>
+  <!--== End Side Menu ==-->
+</div>
+
+{% endblock content %}

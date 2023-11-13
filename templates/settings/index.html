@@ -1,0 +1,558 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+
+    <!--wrapper start-->
+    <div class="wrapper">
+
+        <!--== Start Header Wrapper ==-->
+        <header class="main-header-wrapper position-relative">
+            <div class="header-area header-default">
+                <div class="container pt--0 pb--0">
+                    <div class="row align-items-center position-relative">
+                        <div class="col-6 col-lg-3">
+                            <div class="header-logo-area">
+                                <a href="{% url 'index' %}">
+                                    <img class="logo-main" src="{{ setting.logo.url }}" alt="Logo" />
+                                    <img class="logo-light" src="{{ setting.logo.url }}" alt="Logo" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 d-none d-lg-block">
+                            <div class="header-navigation-area position-relative">
+                                <ul class="main-menu nav">
+                                    <li><a href="{% url 'index' %}"><span>Главная</span></a>
+                                    </li>
+                                    <li><a href="{% url 'store' %}"><span>Магазин</span></a>
+                                    </li>
+                                    <li><a href="{% url 'shop_cart' %}"><span>Корзина</span></a>
+                                    </li>
+                                    <li><a href="index.html#/"><span>Страницы</span></a>
+                                    </li>
+                                    <li><a href="{% url 'about_us' %}"><span>О нас</span></a></li>
+                                    <li><a href="{% url 'contacts' %}"><span>Контакты</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-2">
+                            <div class="header-action-area">
+                                <div class="header-minicart header-minicart-style1">
+                                    <div class="inner">
+                                        <button class="cart-link collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#cartLink">
+                                            <i class="fa fa-shopping-cart"></i>
+                                        </button>
+                                        {% if cart %}
+                                        <div class="header-minicart-content collapse" id="cartLink">
+                                            {% for cart_item in cart %}
+                                            <div class="minicart-inner">
+                                                <div class="minicart-list">
+                                                    <div class="minicart-item">
+                                                        <a class="thumb" href="{% url 'product_detail' cart_item.product.id %}">
+                                                            <img src="{{ cart_item.product.img.url }}" alt="Image-Codex">
+                                                            <span>{{ cart_item.product.title }}</span>
+                                                        </a>
+                                                        <p class="quantity-price">{{ cart_item.quantity }} × <span class="price">{{ cart_item.product.price }}</span></p>
+                                                        <br>
+                                                        <button type="button" class="btn-theme" onclick="window.location.href='{% url 'cart_delete' cart_item.id %}'">Удалить из корзины</button>
+                                                    </div>
+                                                </div>
+                                                <div class="minicart-total">
+                                                    <span>В итоге:</span>
+                                                    <span class="total">{{ cart_item.total_price|add:0 }} сом</span>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        {% else %}
+                                        <div class="header-minicart-content collapse" id="cartLink">
+                                            <p>Ваша корзина пуста</p>
+                                        </div>
+                                        {% endif %}                                                                                                                 
+                                    </div>
+                                </div>                                
+                                <button class="btn-menu" type="button" data-bs-toggle="offcanvas"
+                                    data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
+                                    <i class="ion-android-menu"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="header-bottom d-none d-lg-block">
+                <div class="container pt--0 pb--0">
+                  <div class="row align-items-center">
+                    <div class="col-lg-5 col-xl-6">
+                      <div class="header-search-area">
+                        <form action="{% url 'store' %}" method="get" class="header-search-box" >
+                          <input type="search" class="form-control" placeholder="Поиск товаров" name="search" id="">
+                          <button type="submit"><i class="ion-ios-search-strong"></i></button>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="header-phone">
+                        <p><b>{{ setting.phone }}</b><br>{{ setting.description }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </header>
+        <!--== End Header Wrapper ==-->
+
+        <main class="main-content">
+            <!--== Start Hero Area Wrapper ==-->
+            <section class="home-slider-area">
+                <div class="swiper home-slider-container default-slider-container">
+                    <div class="swiper-wrapper home-slider-wrapper slider-default">
+                        <div class="swiper-slide">
+                            <div class="slider-content-area" data-bg-img="{{ slide_first.img.url }}">   
+                                <div class="container">
+                                    <div class="slider-container">
+                                        <div class="row justify-content-between align-items-center">
+                                            <div class="col-12">
+                                                <div class="slider-content">
+                                                    <div class="content">
+                                                        <div class="sub-title-box">
+                                                            <h2 class="sub-title">{{ slide_first.title }}</h2>
+                                                        </div>
+                                                        <div class="title-box">
+                                                            <h2 class="title">{{ slide_first.subtitle }}</h2>
+                                                        </div>
+                                                        <div class="desc-box">
+                                                            <p class="desc">{{ slide_first.description }}</p>
+                                                        </div>
+                                                        <div class="btn-box btn-group">
+                                                            <a class="btn-theme"
+                                                                href="https://api.whatsapp.com/send?phone=996700669975">Закажите
+                                                                сейчас</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>         
+                    <br>
+                    
+                    <br>
+                    <!--== Add Swiper Arrows ==-->
+                    <div class="swiper-btn-wrap">
+                        <div class="swiper-prev">
+                            <i class="ion-ios-arrow-left"></i>
+                        </div>
+                        <div class="swiper-next">
+                            <i class="ion-ios-arrow-right"></i>
+                        </div>
+                    </div>
+                    <div class="home-swiper-pagination"></div>
+                </div>
+            </section>
+            <!--== Start Product Banner Area Wrapper ==-->
+            <section class="product-banner-area">
+                <div class="container">
+                    <div class="row">
+                        {% for category in subcategories %}
+                        <div class="col-md-6 col-lg-3">
+                            <div class="product-single-item product-single-item-style3">
+                                <div class="thumb">
+                                    <a href="{% url 'store' %}"><img class="hover-img"
+                                        src="{{ category.img.url }}" width="370" height="210"
+                                        alt="Ноутбуки для офиса"></a>
+                                </div>
+                                <div class="content">
+                                    <h1 class="offer">{{ category.title }}</h1>
+                                    {% if user.is_authenticated %}
+                                    <a class="btn-link" href="{% url 'store' %}">Купите сейчас</a>
+                                    {% else %}
+                                    <a class="btn-link" href="{% url 'register' %}">Купите сейчас</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>            
+            <!--== End Product Banner Area Wrapper ==-->
+            <hr width="70%" style="margin: auto;">
+            <!--== Start Product Area Wrapper ==-->
+            <section class="product-area">
+                <div class="container pt--0">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="new-arrival" role="tabpanel"
+                                    aria-labelledby="new-arrival-tab">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="swiper-container-wrap swiper-navigation1">
+                                                <div class="swiper product-slider-col4-container">
+                                                    <div class="swiper-wrapper">
+                                                        {% for post in products %}
+                                                        <div class="swiper-slide">
+                                                            <!--== Start Shop Item ==-->
+                                                            <div class="product-item">
+                                                                <div class="inner-content">
+                                                                    <div class="product-thumb">
+                                                                        <a href="{% url 'product_detail' post.id %}">
+                                                                            <img src="{{ post.img.url }}"
+                                                                                width="628" height="620" alt="Image-Codex">
+                                                                        </a>
+                                                                        <ul class="product-flag">
+                                                                            <li class="new">{{ post.is_available }}</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="product-desc">
+                                                                        <div class="product-info">
+                                                                            <h4 class="title"><a href="{% url 'product_detail' post.pk %}">{{ post.title }}</a></h4>
+                                                                            <div class="product-price">
+                                                                                <span class="price-old">{{ post.old_price }} сом</span>
+                                                                                <span class="price">{{ post.price }} сом</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="add-to-links">
+                                                                            {% if user.is_authenticated %}
+                                                                                <button type="button" onclick="window.location.href='{% url 'product_detail' post.id %}'" class="product-cart ht-tooltip" data-tippy-content="Добавить в корзину">
+                                                                                    В корзину
+                                                                                </button>
+                                                                            {% else %}
+                                                                                <button type="button" onclick="window.location.href='{% url 'register' %}'" class="product-cart ht-tooltip" data-tippy-content="Добавить в корзину">
+                                                                                    В корзину
+                                                                                </button>
+                                                                            {% endif %}
+                                                                        </div>                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--== End Shop Item ==-->
+                                                        </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <!--== Add Swiper Arrows ==-->
+                                                    <div class="swiper-btn-wrap">
+                                                        <div class="swiper-btn-prev">
+                                                            <i class="ion-ios-arrow-left"></i>
+                                                        </div>
+                                                        <div class="swiper-btn-next">
+                                                            <i class="ion-ios-arrow-right"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--== End Product Area Wrapper ==-->
+
+
+            <!--== Start Product Category Area Wrapper ==-->
+            <!--== End Product Category Area Wrapper ==-->
+
+
+
+            <!--== Start Product List Area Wrapper ==-->
+            <!--== End Product List Area Wrapper ==-->
+
+
+            <!--== Start Product List Area Wrapper ==-->
+            <!--== End Product List Area Wrapper ==-->
+
+
+            <!--== Start Product Category Area Wrapper ==-->
+            <section class="product-category-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-title section-title-list">
+                                <div class="col-start">
+                                    <h3 class="title line-height-1 mb--0">Категории товаров</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for post in categories %}
+                        <div class="col-md-3">
+                            <!--== Start Product Category Item ==-->
+                            <div class="product-category">
+                                <div class="inner-content">
+                                    <div class="thumb">
+                                        <a href="{% url 'store' %}">
+                                            <img src="{{ post.img.url }}" width="270" height="271"
+                                                alt="Image-Codex">
+                                        </a>
+                                    </div>
+                                    <div class="content">
+                                        <h4 class="title">{{ post.title }}</h4>
+                                        {% if user.is_authenticated %}
+                                        <a class="btn-link" href="{% url 'store' %}">Узнать подробнее</a>
+                                        {% else %}
+                                        <a class="btn-link" href="{% url 'register' %}">Узнать подробнее</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <!--== End Product Category Item ==-->
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>             
+            <!--== End Product Category Area Wrapper ==-->
+
+            <!--== Start Brand Logo Area Wrapper ==-->
+            <div class="brand-logo-area">
+                <div class="container">
+                    <div class="brand-logo-content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="swiper-container-wrap swiper-navigation5">
+                                    <div class="swiper brand-logo-slider-container">
+                                        <div class="swiper-wrapper">
+                                            <!--== Start Brand Logo Item ==-->
+                                            {% for partner in partner %}
+                                            <div class="swiper-slide">
+                                                <div class="brand-logo-item">
+                                                    <a href="{% url 'index' %}">
+                                                        <img src="{{ partner.logo.url }}" alt="Image-Codex">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            <!--== End Brand Logo Item ==-->
+                                        </div>
+                                    </div>
+                                    <!--== Add Swiper Arrows ==-->
+                                    <div class="swiper-btn-wrap">
+                                        <div class="swiper-btn-prev">
+                                            <i class="ion-ios-arrow-left"></i>
+                                        </div>
+                                        <div class="swiper-btn-next">
+                                            <i class="ion-ios-arrow-right"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+            <!--== End Brand Logo Area Wrapper ==-->
+
+            <!--== Start Divider Area Wrapper ==-->
+            <section class="divider-area">
+                <div class="container-fluid p--0">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="divider-wrap-style1 position-relative">
+                                <div class="divider-thumb">
+                                    <a href="{% url 'store' %}">
+                                        <img class="logo-main" src="{{ slide_second.img.url }}" width="1920"
+                                            height="452" alt="Logo"/>
+                                    </a>
+                                </div>
+                                <div class="divider-content">
+                                    <h2 class="title">{{ slide_second.title }}<br><span>{{ slide_second.subtitle }}</span></h2>
+                                    <p class="desc">{{ slide_second.description }}</p>
+                                    <a class="btn-shop" href="{% url 'store' %}">Закажите сейчас</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--== End Divider Area Wrapper ==-->
+        </main>
+
+        <!--== Start Footer Area Wrapper ==-->
+        <footer class="footer-area">
+            <!--== Start Footer Main ==-->
+            <!--== End Footer Main ==-->
+
+            <!--== Start Footer Center ==-->
+            <div class="footer-center">
+                <div class="container pt--0 pb--0">
+                    <div class="row">
+                        <div class="col-lg-7 col-xl-6">
+                            <div class="newsletter-content">
+                                <div class="newsletter-title">
+                                    <h4 class="title">{{ footerinfo.title }}</h4>
+                                    <p><strong>{{ footerinfo.subtitle }}</strong></p>
+                                </div>
+                                <div class="newsletter-info">
+                                    <p><strong>{{ footerinfo.description }}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-xl-6">
+                            <div class="newsletter-form">
+                                <form action="index.html#">
+                                    <input type="email" placeholder="Ваш e-mail..." required>
+                                    <button type="submit">Подпишитесь!</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--== End Footer Center ==-->
+
+            <!--== Start Footer Bottom ==-->
+            <div class="footer-bottom">
+                <div class="container pt--0 pb--0">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="footer-bottom-content">
+                                <p class="copyright">© 2023 Gluson. Сделано с  <i class="fa fa-heart"></i> компанией <a
+                                        target="_blank" >Codex</a></p>
+                                <div class="widget-about">
+                                    <div class="social-icons">
+                                        <a class="ht-tooltip" data-tippy-content="facebook"
+                                            href="https://www.facebook.com" target="_blank" rel="noopener">
+                                            <i class="fa fa-facebook"></i>
+                                        </a>
+                                        <a class="ht-tooltip" data-bg-color="#40c1df" data-tippy-content="twitter"
+                                            href="https://twitter.com" target="_blank" rel="noopener">
+                                            <i class="fa fa-twitter"></i>
+                                        </a>
+                                        <a class="ht-tooltip" data-bg-color="#c619b8" data-tippy-content="instagram"
+                                            href="https://www.instagram.com" target="_blank" rel="noopener">
+                                            <i class="fa fa-instagram"></i>
+                                        </a>
+                                        <a class="ht-tooltip" data-bg-color="#ed3c32" data-tippy-content="linkedin"
+                                            href="https://www.linkedin.com" target="_blank" rel="noopener">
+                                            <i class="fa fa-linkedin"></i>
+                                        </a>
+                                        <a class="ht-tooltip" data-bg-color="#eb8314" data-tippy-content="rss"
+                                            href="https://rss.com" target="_blank" rel="noopener">
+                                            <i class="fa fa-rss"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--== End Footer Bottom ==-->
+        </footer>
+        <!--== End Footer Area Wrapper ==-->
+
+        <!--== Scroll Top Button ==-->
+        <div id="scroll-to-top" class="scroll-to-top"><span class="fa fa-angle-up"></span></div>
+
+        <!--== Start Product Quick View Modal ==-->
+        <aside class="product-cart-view-modal modal fade" id="action-QuickViewModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="product-quick-view-content">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                <span class="ion-android-close"></span>
+                            </button>
+                            <div class="container pt--0 pb--0">
+                                <div class="row">
+                                    <div class="swiper-wrapper">
+                                        {% for post in products %}
+                                        <div class="swiper-slide">
+                                            <!--== Start Shop Item ==-->
+                                            <div class="product-item">
+                                                <div class="inner-content">
+                                                    <div class="product-thumb">
+                                                        <a href="{% url 'product_detail' post.id %}">
+                                                            <img src="{{ post.img.url }}"
+                                                                width="628" height="620" alt="Image-Codex">
+                                                        </a>
+                                                        <ul class="product-flag">
+                                                            <li class="new">{{ post.is_available }}</li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <div class="product-info">
+                                                            <h4 class="title"><a href="{% url 'product_detail' post.id %}">{{ post.title }}</a></h4>
+                                                            <div class="product-price">
+                                                                <span class="price-old">{{ post.old_price }} сом</span>
+                                                                <span class="price">{{ post.price }} сом</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="add-to-links">
+                                                            <button type="button" onclick="window.location.href='shop.html'" class="product-cart ht-tooltip" data-tippy-content="Add to cart">
+                                                                В корзину
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--== End Shop Item ==-->
+                                        </div>
+                                        {% endfor %}
+                                        <!--== End Product Info Area ==-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!--== End Product Quick View Modal ==-->
+
+        <!--== Start Side Menu ==-->
+        <div class="off-canvas-wrapper offcanvas offcanvas-start" tabindex="-1" id="AsideOffcanvasMenu"
+            aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+                <h1 id="offcanvasExampleLabel"></h1>
+                <button class="btn-menu-close" data-bs-dismiss="offcanvas" aria-label="Close">menu <i
+                        class="fa fa-chevron-left"></i></button>
+            </div>
+            <div class="offcanvas-body">
+                <nav id="offcanvasNav" class="offcanvas-menu-nav">
+                    <ul>
+                        <li class="offcanvas-nav-parent">
+                            <a class="offcanvas-nav-item" href="javascript:void(0)">Главная</a>
+
+                        </li>
+
+                        <li class="offcanvas-nav-parent">
+                            <a class="offcanvas-nav-item" href="javascript:void(0)">Магазин</a>
+
+                        </li>
+
+                        <li class="offcanvas-nav-parent">
+                            <a class="offcanvas-nav-item" href="javascript:void(0)">Блог</a>
+
+                        </li>
+
+                        <li class="offcanvas-nav-parent">
+                            <a class="offcanvas-nav-item" href="javascript:void(0)">Страницы</a>
+
+                        </li>
+
+                        <li class="offcanvas-nav-parent"><a class="offcanvas-nav-item" href="about-us.html">О нас</a>
+                        </li>
+
+                        <li class="offcanvas-nav-parent"><a class="offcanvas-nav-item" href="contact.html">Контакты</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <p class="info"><b>{{ setting.phone }}</b><br>{{ setting.description }}</p>
+            </div>
+        </div>
+        <!--== End Side Menu ==-->
+    </div>
+
+
+{% endblock content %}
